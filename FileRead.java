@@ -8,7 +8,7 @@ import java.util.*;
 import java.io.*;
 
 public class FileRead{
-	public void readFile(File file){
+	public List<String> readFile(File file){
 		List<String> list = new LinkedList<>();
 
     	try{
@@ -22,6 +22,7 @@ public class FileRead{
 		}
 
 		printFile(list);
+		return list;
 	}
 
 	public void printFile(List<String> fileDivided){
