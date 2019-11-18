@@ -10,5 +10,6 @@ public class Main{
 		
 		PDA pda = new PDA();
 		pda.splitFile(fileToSplit);
+		pda.topDown("abba");
 	}
 }
