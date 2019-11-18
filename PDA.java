@@ -1,4 +1,4 @@
-/**
+    /**
 * This class is for reading a text file
 * @author  Alejandro Moreno Loza - A01654319
 * @author  Fabricio Andre Fuentes Fuentes - A01338527
