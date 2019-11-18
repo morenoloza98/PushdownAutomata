@@ -6,9 +6,11 @@
 
 import java.util.*;
 import java.io.*;
+import java.lang.Character.*;
 public class PDA{
     Dictionary<String, List<String>> productionsDictionary = new Hashtable<>();
     int listSize; 
+    boolean done;
     
     String nonTerminalSymbolsLine;
     List<String> nonTerminalSymbols = new LinkedList<String>();
@@ -23,6 +25,7 @@ public class PDA{
     String[] divideProduction;
     List<String> leftSide = new LinkedList<String>();
     List<String> rightSide = new LinkedList<String>();
+    Grafo<String> graph = new Grafo<>();
 
 	public void splitFile(List<String> list){
         productionsDictionary = new Hashtable<>();
@@ -76,24 +79,63 @@ public class PDA{
         System.out.println(productionsDictionary);
     }
 
-    public void topDown(String input){
-        Queue<Character> goal = new LinkedList<>();
-        Queue<Character> inputQ = new LinkedList<>();
-        Queue<Character> inputButInQ = new LinkedList<>();
+    public void topDown(String inputStr){
+        Queue<String> goal = new LinkedList<>();
+        // Queue<Character> inputQ = new LinkedList<>();
+        // Queue<Character> inputButInQ = new LinkedList<>();
 
-        for(int i = 0; i<input.length(); i++){
-            inputQ.add(input.charAt(i));
-            inputButInQ.add(input.charAt(i));
-        }
+        // for(int i = 0; i<input.length(); i++){
+        //     inputQ.add(input.charAt(i));
+        //     inputButInQ.add(input.charAt(i));
+        // }
 
-        for(int i = 0; i<initialSymbol.length(); i++){
-            goal.add(initialSymbol.charAt(i));
-        }
+        // for(int i = 0; i<initialSymbol.length(); i++){
+        //     goal.add(initialSymbol.charAt(i));
+        // }
 
-        
-        boolean done = false;
+        //Put S as root of 'T' (in this case, the graph)
+        graph.addVertice(initialSymbol);
+
+        //Add the init symbol to the queue
+        goal.add(initialSymbol);
         
         do {
+            
+            String q = goal.poll();
+            done = false;
+            String nextRule = null;    
+            do{
+                for (int i = 0; i < productionsDictionary.get(q).size(); i++) {
+                    if (productionsDictionary.get(q).isEmpty()){
+                        done = true;
+                    }
+                    else if (productionsDictionary.get(q).size() >= 1){
+                        nextRule = productionsDictionary.get(q).get(i);
+                        for (int j = 0; j < nextRule.length(); j++) {
+                            if(terminalSymbols.contains(nextRule.charAt(j)) || nextRule.charAt(j) == inputStr.charAt(0)){
+                                goal.add(nextRule);
+                                graph.addVertice(nextRule);
+                                graph.addArista(initialSymbol,nextRule);
+                            }
+                            i = j;
+                        }
+                        
+                    }
+                }
+
+            }while(!done || inputStr.equals(nextRule));
+                // String nextRule = productionsDictionary.get(q).get(i);
+                // for (int j = 0; j < nextRule.length(); j++) {
+                //     if(nonTerminalSymbols.contains(nextRule.charAt(j))){
+                //         q = nextRule;
+                //         String newRules = productionsDictionary.get(q).get(j);
+                //         if(newRules)
+                //     }    
+                // }
+                
+
+                System.out.println("NR: " + q);
+                System.out.println("Goal: " + goal);
             
             /*if(terminalSymbols.contains(goal.peek() )){
                 if(goal.peek().equals(inputQ.peek())){
@@ -123,7 +165,7 @@ public class PDA{
 
             
             
-        } while (goal.isEmpty() || inputQ == inputButInQ);
+        } while (!goal.isEmpty() || inputStr.equals(goal));
         
         
 

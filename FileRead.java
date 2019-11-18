@@ -20,8 +20,7 @@ public class FileRead{
     	}catch (IOException e) {
 			e.printStackTrace();
 		}
-
-		printFile(list);
+		
 		return list;
 	}
 
