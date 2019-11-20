@@ -93,17 +93,20 @@ public class PDA{
         do {
             
             String q = goal.poll();
-            splitStringInThree(q);
-            String u = splitStringInThree(q).get(0);
-            String leftMost = splitStringInThree(q).get(1);
-            String v = splitStringInThree(q).get(2);
-
-            while(!done || !p.equals(uwv)){
-                for (int i = 0; i < productionsDictionary.get(leftMost).size(); i++) {
-                    // System.out.println(i);
-                    // System.out.println(leftMost);
-                    if (productionsDictionary.get(leftMost).isEmpty()){
-                        done = true;
+            String p = inputStr;
+            System.out.println(p);
+            String u = null;
+            String leftMost = null;
+            String v = null;
+            done = false;
+            String w = null;
+            for (int i = 0; i < q.length() && leftMost == null; i++) {
+                for (int j = 0; j < nonTerminalSymbols.size() ; j++) {
+                    if(q.charAt(i) == nonTerminalSymbols.get(j).charAt(0)){
+                        leftMost = String.valueOf(q.charAt(i));
+                    }
+                    else if(leftMost != null && i == 0){
+                        v = q.substring(i+1,q.length());
                     }
                     else 
                     {
