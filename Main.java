@@ -16,16 +16,19 @@ public class Main extends JFrame implements ActionListener{
 	JLabel titleLabel, authorA, authorB, inputL;
 	
 	public Main(){
+
+		int width = 400;
+		int height = 500; 
 		titleLabel = new JLabel("Top Down Parsing");
-		titleLabel.setBounds(150,-30,400,100);
+		titleLabel.setBounds(150,-30,width/2,100);
 		titleLabel.setFont(new Font("Arial", Font.ITALIC, 18));
-		titleLabel.setForeground(new Color(255,255,255));
+		titleLabel.setForeground(new Color(0,0,0));
 		authorA = new JLabel("Alejandro Moreno");
 		authorA.setBounds(30,0,400,100);
-		authorA.setForeground(new Color(255,255,255));
+		authorA.setForeground(new Color(0,0,0));
 		authorB = new JLabel("Fabricio Fuentes");
 		authorB.setBounds(150,0,400,100);
-		authorB.setForeground(new Color(255,255,255));
+		authorB.setForeground(new Color(0,0,0));
 
 		inputL = new JLabel("String to Process");
 		inputL.setBounds(30,60,400,100);
@@ -51,7 +54,7 @@ public class Main extends JFrame implements ActionListener{
 
 		runPDA.addActionListener(this);
 		chooseFile.addActionListener(this);
-		setSize(400,500);
+		setSize(width,height);
 		setLayout(null);
 		setVisible(true);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -90,8 +93,9 @@ public class Main extends JFrame implements ActionListener{
 	public static void pushDown(String input){
 		FileRead fileRead = new FileRead();
 		java.util.List<String> fileToSplit = new LinkedList<String>();
-		//File file = new File("test1.txt");
-		if(selectedFile == null)
+		File file = new File("test1.txt");
+		
+		/*if(selectedFile == null)
 			System.out.println("Please Select a file with the grammar");
 		else{
 			fileToSplit = fileRead.readFile(selectedFile);
@@ -99,6 +103,13 @@ public class Main extends JFrame implements ActionListener{
 			pda.splitFile(fileToSplit);
 			pda.topDown(input);
 			//pda.topDown("abba");
-		}
+		}*/
+
+		//QuickTests NO file chooser
+		fileToSplit = fileRead.readFile(file);
+		PDA pda = new PDA();
+		pda.splitFile(fileToSplit);
+		pda.topDown(input);
+
 	}
 }

@@ -102,6 +102,8 @@ public class PDA{
         do {
             
             String q = goal.poll();
+            String p = inputStr;
+            System.out.println(p);
             String u = null;
             String leftMost = null;
             String v = null;
@@ -126,6 +128,8 @@ public class PDA{
             System.out.println("u: " + u);
             System.out.println("leftMot: " +leftMost);
             System.out.println("v: " +v);
+
+
 
             // do{
             //     for (int i = 0; i < productionsDictionary.get(leftMost).size(); i++) {
