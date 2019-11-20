@@ -102,39 +102,51 @@ public class PDA{
         do {
             
             String q = goal.poll();
+            String u = null;
             String leftMost = null;
+            String v = null;
             done = false;
             String nextRule = null;
-            for (int i = 0; i < q.length() && leftMost==null; i++) {
+            for (int i = 0; i < q.length() && leftMost == null; i++) {
                 for (int j = 0; j < nonTerminalSymbols.size() ; j++) {
-                    if(String.valueOf(q.charAt(i)) == nonTerminalSymbols.get(j)){
+                    if(q.charAt(i) == nonTerminalSymbols.get(j).charAt(0)){
                         leftMost = String.valueOf(q.charAt(i));
+                    }
+                    else if(leftMost != null && i == 0){
+                        u = "";
+                        v = q.substring(i+1,q.length());
+                    }
+                    else if(leftMost != null && i!=0){
+                        u = q.substring(0, i);
+                        v = q.substring(i+1,q.length());
                     }
                 }
                 
             }
-            System.out.println(leftMost);
+            System.out.println("u: " + u);
+            System.out.println("leftMot: " +leftMost);
+            System.out.println("v: " +v);
 
-            do{
-                for (int i = 0; i < productionsDictionary.get(q).size(); i++) {
-                    if (productionsDictionary.get(q).isEmpty()){
-                        done = true;
-                    }
-                    else if (productionsDictionary.get(q).size() >= 1){
-                        nextRule = productionsDictionary.get(q).get(i);
-                        for (int j = 0; j < nextRule.length(); j++) {
-                            if(terminalSymbols.contains(nextRule.charAt(j)) || nextRule.charAt(j) == inputStr.charAt(0)){
-                                goal.add(nextRule);
-                                graph.addVertice(nextRule);
-                                graph.addArista(initialSymbol,nextRule);
-                            }
-                            i = j;
-                        }
+            // do{
+            //     for (int i = 0; i < productionsDictionary.get(leftMost).size(); i++) {
+            //         if (productionsDictionary.get(leftMost).isEmpty()){
+            //             done = true;
+            //         }
+            //         else if (productionsDictionary.get(leftMost).size() >= 1){
+            //             nextRule = productionsDictionary.get(leftMost).get(i);
+            //             for (int j = 0; j < nextRule.length(); j++) {
+            //                 if(terminalSymbols.contains(nextRule.charAt(j)) || nextRule.charAt(j) == inputStr.charAt(0)){
+            //                     goal.add(nextRule);
+            //                     graph.addVertice(nextRule);
+            //                     graph.addArista(initialSymbol,nextRule);
+            //                 }
+            //                 i = j;
+            //             }
                         
-                    }
-                }
+            //         }
+            //     }
 
-            }while(!done || inputStr.equals(nextRule));
+            // }while(!done || inputStr.equals(nextRule));
                 // String nextRule = productionsDictionary.get(q).get(i);
                 // for (int j = 0; j < nextRule.length(); j++) {
                 //     if(nonTerminalSymbols.contains(nextRule.charAt(j))){
@@ -145,8 +157,8 @@ public class PDA{
                 // }
                 
 
-                System.out.println("NR: " + q);
-                System.out.println("Goal: " + goal);
+                // System.out.println("NR: " + q);
+                // System.out.println("Goal: " + goal);
             
             /*if(terminalSymbols.contains(goal.peek() )){
                 if(goal.peek().equals(inputQ.peek())){
