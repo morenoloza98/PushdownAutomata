@@ -102,6 +102,7 @@ public class PDA{
         do {
             
             String q = goal.poll();
+            String p = inputStr;
             String u = null;
             String leftMost = null;
             String v = null;
@@ -127,26 +128,24 @@ public class PDA{
             System.out.println("leftMot: " +leftMost);
             System.out.println("v: " +v);
 
-            // do{
-            //     for (int i = 0; i < productionsDictionary.get(leftMost).size(); i++) {
-            //         if (productionsDictionary.get(leftMost).isEmpty()){
-            //             done = true;
-            //         }
-            //         else if (productionsDictionary.get(leftMost).size() >= 1){
-            //             nextRule = productionsDictionary.get(leftMost).get(i);
-            //             for (int j = 0; j < nextRule.length(); j++) {
-            //                 if(terminalSymbols.contains(nextRule.charAt(j)) || nextRule.charAt(j) == inputStr.charAt(0)){
-            //                     goal.add(nextRule);
-            //                     graph.addVertice(nextRule);
-            //                     graph.addArista(initialSymbol,nextRule);
-            //                 }
-            //                 i = j;
-            //             }
-                        
-            //         }
-            //     }
+            for (int i = 0; i < productionsDictionary.get(leftMost).size(); i++) {
+                if (productionsDictionary.get(leftMost).isEmpty()){
+                    done = true;
+                }
+                else{
+                    nextRule = productionsDictionary.get(leftMost).get(i);
+                    for (int j = 0; j < nextRule.length(); j++) {
+                        if(terminalSymbols.contains(nextRule.charAt(j)) || nextRule.charAt(j) == inputStr.charAt(0)){
+                            goal.add(nextRule);
+                            graph.addVertice(nextRule);
+                            graph.addArista(initialSymbol,nextRule);
+                        }
+                        i = j;
+                    }
+                    
+                }
+            }
 
-            // }while(!done || inputStr.equals(nextRule));
                 // String nextRule = productionsDictionary.get(q).get(i);
                 // for (int j = 0; j < nextRule.length(); j++) {
                 //     if(nonTerminalSymbols.contains(nextRule.charAt(j))){
