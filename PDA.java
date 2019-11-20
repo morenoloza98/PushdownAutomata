@@ -97,7 +97,7 @@ public class PDA{
         graph.addVertice(initialSymbol);
 
         //Add the init symbol to the queue
-        goal.add(initialSymbol);
+        goal.add("AbbbB");
         
         do {
             
@@ -108,14 +108,13 @@ public class PDA{
             String leftMost = null;
             String v = null;
             done = false;
-            String nextRule = null;
+            String w = null;
             for (int i = 0; i < q.length() && leftMost == null; i++) {
                 for (int j = 0; j < nonTerminalSymbols.size() ; j++) {
                     if(q.charAt(i) == nonTerminalSymbols.get(j).charAt(0)){
                         leftMost = String.valueOf(q.charAt(i));
                     }
                     else if(leftMost != null && i == 0){
-                        u = "";
                         v = q.substring(i+1,q.length());
                     }
                     else if(leftMost != null && i!=0){
@@ -129,28 +128,29 @@ public class PDA{
             System.out.println("leftMot: " +leftMost);
             System.out.println("v: " +v);
 
+            for (int i = 0; i < productionsDictionary.get(leftMost).size(); i++) {
+                if (productionsDictionary.get(leftMost).isEmpty()){
+                    done = true;
+                }
+                else 
+                {
+                    w = productionsDictionary.get(leftMost).get(i);
+                    String uwv = u + w + v;
+                    // if (uwv){
 
+                    // }
+                    // for (int j = 0; j < w.length(); j++) {
+                    //     if(terminalSymbols.contains(nextRule.charAt(j)) || nextRule.charAt(j) == inputStr.charAt(0)){
+                    //         goal.add(w);
+                    //         graph.addVertice(nextRule);
+                    //         graph.addArista(initialSymbol,nextRule);
+                    //     }
+                    //     i = j;
+                }
+                    
+                
+            }
 
-            // do{
-            //     for (int i = 0; i < productionsDictionary.get(leftMost).size(); i++) {
-            //         if (productionsDictionary.get(leftMost).isEmpty()){
-            //             done = true;
-            //         }
-            //         else if (productionsDictionary.get(leftMost).size() >= 1){
-            //             nextRule = productionsDictionary.get(leftMost).get(i);
-            //             for (int j = 0; j < nextRule.length(); j++) {
-            //                 if(terminalSymbols.contains(nextRule.charAt(j)) || nextRule.charAt(j) == inputStr.charAt(0)){
-            //                     goal.add(nextRule);
-            //                     graph.addVertice(nextRule);
-            //                     graph.addArista(initialSymbol,nextRule);
-            //                 }
-            //                 i = j;
-            //             }
-                        
-            //         }
-            //     }
-
-            // }while(!done || inputStr.equals(nextRule));
                 // String nextRule = productionsDictionary.get(q).get(i);
                 // for (int j = 0; j < nextRule.length(); j++) {
                 //     if(nonTerminalSymbols.contains(nextRule.charAt(j))){
