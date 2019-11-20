@@ -7,6 +7,7 @@
 import java.util.*;
 import java.io.*;
 import java.lang.Character.*;
+
 public class PDA{
     Dictionary<String, List<String>> productionsDictionary = new Hashtable<>();
     int listSize; 
@@ -76,125 +77,103 @@ public class PDA{
             productionsDictionary.put(ls, pd);
         }
 
-        System.out.println(productionsDictionary);
     }
 
     public void topDown(String inputStr){
         Queue<String> goal = new LinkedList<>();
-        // Queue<Character> inputQ = new LinkedList<>();
-        // Queue<Character> inputButInQ = new LinkedList<>();
-
-        // for(int i = 0; i<input.length(); i++){
-        //     inputQ.add(input.charAt(i));
-        //     inputButInQ.add(input.charAt(i));
-        // }
-
-        // for(int i = 0; i<initialSymbol.length(); i++){
-        //     goal.add(initialSymbol.charAt(i));
-        // }
 
         //Put S as root of 'T' (in this case, the graph)
-        graph.addVertice(initialSymbol);
+        // graph.addVertice(initialSymbol);
 
         //Add the init symbol to the queue
-        goal.add("AbbbB");
-        
+        goal.add(initialSymbol);
+        String p = inputStr;
+        String uwv = null;
+
         do {
             
             String q = goal.poll();
-            String u = null;
-            String leftMost = null;
-            String v = null;
-            done = false;
-            String w = null;
-            for (int i = 0; i < q.length() && leftMost == null; i++) {
-                for (int j = 0; j < nonTerminalSymbols.size() ; j++) {
-                    if(q.charAt(i) == nonTerminalSymbols.get(j).charAt(0)){
-                        leftMost = String.valueOf(q.charAt(i));
+            splitStringInThree(q);
+            String u = splitStringInThree(q).get(0);
+            String leftMost = splitStringInThree(q).get(1);
+            String v = splitStringInThree(q).get(2);
+
+            while(!done || !p.equals(uwv)){
+                for (int i = 0; i < productionsDictionary.get(leftMost).size(); i++) {
+                    // System.out.println(i);
+                    // System.out.println(leftMost);
+                    if (productionsDictionary.get(leftMost).isEmpty()){
+                        done = true;
                     }
-                    else if(leftMost != null && i == 0){
-                        v = q.substring(i+1,q.length());
-                    }
-                    else if(leftMost != null && i!=0){
-                        u = q.substring(0, i);
-                        v = q.substring(i+1,q.length());
-                    }
-                }
-                
-            }
-            System.out.println("u: " + u);
-            System.out.println("leftMot: " +leftMost);
-            System.out.println("v: " +v);
-
-            for (int i = 0; i < productionsDictionary.get(leftMost).size(); i++) {
-                if (productionsDictionary.get(leftMost).isEmpty()){
-                    done = true;
-                }
-                else 
-                {
-                    w = productionsDictionary.get(leftMost).get(i);
-                    String uwv = u + w + v;
-                    // if (uwv){
-
-                    // }
-                    // for (int j = 0; j < w.length(); j++) {
-                    //     if(terminalSymbols.contains(nextRule.charAt(j)) || nextRule.charAt(j) == inputStr.charAt(0)){
-                    //         goal.add(w);
-                    //         graph.addVertice(nextRule);
-                    //         graph.addArista(initialSymbol,nextRule);
-                    //     }
-                    //     i = j;
-                }
-                    
-                
-            }
-
-                // String nextRule = productionsDictionary.get(q).get(i);
-                // for (int j = 0; j < nextRule.length(); j++) {
-                //     if(nonTerminalSymbols.contains(nextRule.charAt(j))){
-                //         q = nextRule;
-                //         String newRules = productionsDictionary.get(q).get(j);
-                //         if(newRules)
-                //     }    
-                // }
-                
-
-                // System.out.println("NR: " + q);
-                // System.out.println("Goal: " + goal);
-            
-            /*if(terminalSymbols.contains(goal.peek() )){
-                if(goal.peek().equals(inputQ.peek())){
-                    goal.remove();
-                    inputQ.remove();
-                }
-                else{
-                    System.out.println("String does not belong to the grammar");
-                    done = true;
-                } 
-            }
-            else{
-                Character q = goal.peek();
-                //Checar producciones y checar cuantas son
-                if(productionsDictionary.get(q).size() == 1){
-                    //Sustituir por esa única producción
-                }
-                else if(productionsDictionary.get(q).size() > 1){
-                    for(int i = 0; i<productionsDictionary.get(q).size(); i++){
-                        Character[] c = productionsDictionary.get(q).get(i);
-                        if(c[0].equals(inputQ.peek()) || nonTerminalSymbols.contains(c[0]) ){
-                            //Sustituir por esas producciones
+                    else 
+                    {
+                        String w = productionsDictionary.get(leftMost).get(i);
+                        uwv = u + w + v;
+                        uwv.replaceAll("\\s+","");
+                        splitStringInThree(uwv);
+                        String u2 = splitStringInThree(uwv).get(0);
+                        String leftMost2 = splitStringInThree(uwv).get(1);
+                        String v2 = splitStringInThree(uwv).get(2);
+                        System.out.println("uwv: " + uwv);
+                        for(int j = 0; j < uwv.length(); j++){
+                            System.out.println("Enter for if j");
+                            for(int k = 0; k < nonTerminalSymbols.size(); k++){
+                                System.out.println("Enter for if k");
+                                if(uwv.charAt(j) == nonTerminalSymbols.get(k).charAt(0) && u2 == p.substring(0, u2.length())){
+                                    System.out.println("Enter if uwv");
+                                    goal.add(uwv);
+                                }
+                                
+                            }
                         }
                     }
+                       
                 }
-            }*/
+                System.out.println("UWV: " + uwv);
 
+            }
             
-            
-        } while (!goal.isEmpty() || inputStr.equals(goal));
+        } while (!goal.isEmpty() || !p.equals(uwv));
+
+        if (p.equals(uwv)){
+            System.out.println("Accepted");
+        }else{
+            System.out.println("Rejected");
+        }
         
         
 
 
+    }
+
+    public List<String> splitStringInThree(String str){
+        List<String> toReturn = new LinkedList<>();
+        String u = null;
+        String leftMost = null;
+        String v = null;
+        done = false;
+        String w = null;
+        for (int i = 0; i < str.length() && leftMost == null; i++) {
+            for (int j = 0; j < nonTerminalSymbols.size() ; j++) {
+                if(str.charAt(i) == nonTerminalSymbols.get(j).charAt(0)){
+                    leftMost = String.valueOf(str.charAt(i));
+                }
+                else if(leftMost != null && i == 0){
+                    u = str.substring(0, i);
+                    v = str.substring(i+1,str.length());
+                }
+                else if(leftMost != null && i!=0){
+                    u = str.substring(0, i);
+                    v = str.substring(i+1,str.length());
+                }
+            }
+            
+        }
+        toReturn.add(u);
+        toReturn.add(leftMost);
+        toReturn.add(v);
+
+        return toReturn;
     }
 
 }

@@ -60,8 +60,6 @@ public class Main extends JFrame implements ActionListener{
 	public void actionPerformed(ActionEvent evt){
         if(evt.getSource() == runPDA){
 			input = inputTF.getText();
-			System.out.println(input);
-
 			if(input == null || input == "")
 				System.out.println("Please insert a valid string");
 			else
@@ -90,20 +88,16 @@ public class Main extends JFrame implements ActionListener{
 	public static void pushDown(String input){
 		FileRead fileRead = new FileRead();
 		java.util.List<String> fileToSplit = new LinkedList<String>();
-		File file = new File("test1.txt");
-		// if(selectedFile == null)
-		// 	System.out.println("Please Select a file with the grammar");
-		// else{
-		// 	fileToSplit = fileRead.readFile(selectedFile);
-		// 	PDA pda = new PDA();
-		// 	pda.splitFile(fileToSplit);
-		// 	pda.topDown(input);
-		// 	//pda.topDown("abba");
-		// }
-		fileToSplit = fileRead.readFile(file);
-		PDA pda = new PDA();
-		pda.splitFile(fileToSplit);
-		pda.topDown(input);
+		// File file = new File("test1.txt");
+		if(selectedFile == null)
+			System.out.println("Please Select a file with the grammar");
+		else{
+			fileToSplit = fileRead.readFile(selectedFile);
+			PDA pda = new PDA();
+			pda.splitFile(fileToSplit);
+			pda.topDown(input);
+			//pda.topDown("abba");
+		}
 
 	}
 }
