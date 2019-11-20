@@ -102,8 +102,19 @@ public class PDA{
         do {
             
             String q = goal.poll();
+            String leftMost = null;
             done = false;
-            String nextRule = null;    
+            String nextRule = null;
+            for (int i = 0; i < q.length() && leftMost==null; i++) {
+                for (int j = 0; j < nonTerminalSymbols.size() ; j++) {
+                    if(String.valueOf(q.charAt(i)) == nonTerminalSymbols.get(j)){
+                        leftMost = String.valueOf(q.charAt(i));
+                    }
+                }
+                
+            }
+            System.out.println(leftMost);
+
             do{
                 for (int i = 0; i < productionsDictionary.get(q).size(); i++) {
                     if (productionsDictionary.get(q).isEmpty()){
