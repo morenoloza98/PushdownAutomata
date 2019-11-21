@@ -65,6 +65,7 @@ public class Main extends JFrame implements ActionListener{
 		setSize(width,height);
 		setLayout(null);
 		setVisible(true);
+		setResizable(false);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
 
@@ -112,7 +113,7 @@ public class Main extends JFrame implements ActionListener{
 
 				if(check)
 					outputL.setText("String belongs to the grammar");
-				else
+				else if(!check)
 					outputL.setText("String does not belong to the grammar");
 			}
 		}
