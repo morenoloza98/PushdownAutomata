@@ -79,11 +79,8 @@ public class PDA{
 
     }
 
-    public void topDown(String inputStr){
+    public boolean topDown(String inputStr){
         Queue<String> goal = new LinkedList<>();
-
-        //Put S as root of 'T' (in this case, the graph)
-        // graph.addVertice(initialSymbol);
 
         //Add the init symbol to the queue
         goal.add(initialSymbol);
@@ -98,52 +95,40 @@ public class PDA{
             String leftMost = splitStringInThree(q).get(1);
             String v = splitStringInThree(q).get(2);
 
-            while(!done || !p.equals(uwv)){
-                for (int i = 0; i < productionsDictionary.get(leftMost).size(); i++) {
-                    // System.out.println(i);
-                    // System.out.println(leftMost);
-                    if (productionsDictionary.get(leftMost).isEmpty()){
-                        done = true;
-                    }
-                    else 
-                    {
-                        String w = productionsDictionary.get(leftMost).get(i);
-                        uwv = u + w + v;
-                        uwv.replaceAll("\\s+","");
-                        splitStringInThree(uwv);
-                        String u2 = splitStringInThree(uwv).get(0);
-                        String leftMost2 = splitStringInThree(uwv).get(1);
-                        String v2 = splitStringInThree(uwv).get(2);
-                        System.out.println("uwv: " + uwv);
-                        for(int j = 0; j < uwv.length(); j++){
-                            System.out.println("Enter for if j");
-                            for(int k = 0; k < nonTerminalSymbols.size(); k++){
-                                System.out.println("Enter for if k");
-                                if(uwv.charAt(j) == nonTerminalSymbols.get(k).charAt(0) && u2 == p.substring(0, u2.length())){
-                                    System.out.println("Enter if uwv");
-                                    goal.add(uwv);
-                                }
-                                
-                            }
-                        }
-                    }
-                       
+            for (int i = 0; i < productionsDictionary.get(leftMost).size() && !p.equals(uwv); i++) {
+                if (productionsDictionary.get(leftMost).isEmpty()){
+                    done = true;
                 }
-                System.out.println("UWV: " + uwv);
-
+                else 
+                {
+                    String w = productionsDictionary.get(leftMost).get(i);
+                    uwv = u + w + v;
+                    uwv.replaceAll("\\s+","");
+                    List<String> splitted = splitStringInThree(uwv);
+                    String u2 = splitted.get(0);
+                    String leftMost2 = splitted.get(1);
+                    String v2 = splitted.get(2);
+                    // if(u2 != null){
+                        // if(p.length() >= u2.length()){
+                            if( leftMost2 != null && u2.equals(p.substring(0, u2.length()) ) ){
+                                goal.add(uwv);
+                            }
+                        // }else{
+                            // return false;
+                        // }
+                    // }
+                                  
+                }
+                   
             }
             
         } while (!goal.isEmpty() || !p.equals(uwv));
 
         if (p.equals(uwv)){
-            System.out.println("Accepted");
+            return true;
         }else{
-            System.out.println("Rejected");
+            return false;
         }
-        
-        
-
-
     }
 
     public List<String> splitStringInThree(String str){
@@ -151,20 +136,25 @@ public class PDA{
         String u = null;
         String leftMost = null;
         String v = null;
-        done = false;
-        String w = null;
         for (int i = 0; i < str.length() && leftMost == null; i++) {
-            for (int j = 0; j < nonTerminalSymbols.size() ; j++) {
+            for (int j = 0; j < nonTerminalSymbols.size(); j++) {
                 if(str.charAt(i) == nonTerminalSymbols.get(j).charAt(0)){
                     leftMost = String.valueOf(str.charAt(i));
+                    System.out.println("Left most: " + leftMost);
                 }
-                else if(leftMost != null && i == 0){
+                if(leftMost != null && i == 0){
+                    System.out.println("If divide");
                     u = str.substring(0, i);
                     v = str.substring(i+1,str.length());
+                    System.out.println("u: " + u);
+                    System.out.println("v: " + v);
                 }
                 else if(leftMost != null && i!=0){
+                    System.out.println("Else divide");
                     u = str.substring(0, i);
                     v = str.substring(i+1,str.length());
+                    System.out.println("u: " + u);
+                    System.out.println("v: " + v);
                 }
             }
             

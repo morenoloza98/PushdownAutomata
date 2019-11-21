@@ -95,7 +95,7 @@ public class Main extends JFrame implements ActionListener{
 			fileToSplit = fileRead.readFile(selectedFile);
 			PDA pda = new PDA();
 			pda.splitFile(fileToSplit);
-			pda.topDown(input);
+			System.out.println(pda.topDown(input));
 			//pda.topDown("abba");
 		}
 
