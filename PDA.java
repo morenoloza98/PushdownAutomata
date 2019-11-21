@@ -26,7 +26,6 @@ public class PDA{
     String[] divideProduction;
     List<String> leftSide = new LinkedList<String>();
     List<String> rightSide = new LinkedList<String>();
-    Grafo<String> graph = new Grafo<>();
 
 	public void splitFile(List<String> list){
         productionsDictionary = new Hashtable<>();
