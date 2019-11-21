@@ -10,24 +10,33 @@ import java.io.*;
 import java.lang.Character.*;
 
 public class TDP{
-    Dictionary<String, List<String>> productionsDictionary = new Hashtable<>();
+    Dictionary<String, List<String>> productionsDictionary = new Hashtable<>(); //The keys are the non terminal symbols of
+                                                                                //the grammar and the lists of each one of
+                                                                                //them are their rules (productions)
     int listSize; 
-    boolean done;
     
     String nonTerminalSymbolsLine;
-    List<String> nonTerminalSymbols = new LinkedList<String>();
+    List<String> nonTerminalSymbols = new LinkedList<String>(); //List that contains the non terminal symbols
+                                                                //of the grammar
     
     String terminalSymbolsLine;
-    List<Character> terminalSymbols = new LinkedList<>();
+    List<Character> terminalSymbols = new LinkedList<>(); //List that contains the terminal symbols
+                                                          //of the grammar
 
-    String initialSymbol;
+    String initialSymbol; //Contains the initial symbol of the grammar given in the txt file
 
     int remainingLines;
-    String[] productions;
-    String[] divideProduction;
-    List<String> leftSide = new LinkedList<String>();
-    List<String> rightSide = new LinkedList<String>();
+    String[] productions; //Contains the set of rules of the given grammar
+    String[] divideProduction; //Helps as a support to divide each production into two 
+    List<String> leftSide = new LinkedList<String>(); //Contains all the left sides of the grammar rules
+    List<String> rightSide = new LinkedList<String>(); //Contains all the right sides of the grammar rules
 
+    /**
+    * Splits the list of lines withdrawed from the file, divides them and stores them
+    * in variables.
+    * Fills the dictionary used later on in the top down parsing method.
+    * @param list List of strings containing the lines of the file
+    */
 	public void splitFile(List<String> list){
         productionsDictionary = new Hashtable<>();
         listSize = list.size(); 
@@ -79,16 +88,25 @@ public class TDP{
 
     }
 
-    public boolean topDown(String inputStr){
-        Queue<String> goal = new LinkedList<>();
+    /**
+    * This method follows the top-down parsing algorithm for determining if a given
+    * string belongs or not to a given grammar.
+    * @param inputStr The string given by the user and retrieved from the textfield.
+    * @return a boolean value depending on whethter the string belongs (true) or not (false)
+    */
 
-        //Add the init symbol to the queue
+    public boolean topDown(String inputStr){
+
+        Queue<String> goal = new LinkedList<>(); //Queue used for storing the productions
+                                                 //done by the cicles bellow; simulating the substitution
+                                                 //of each non terminal symbol
         goal.add(initialSymbol);
         String p = inputStr;
         String uwv = null;
+        boolean done = false;
 
         while (!goal.isEmpty() || !p.equals(uwv)) {
-            String q = goal.poll();
+            String q = goal.poll(); //Stores the head of the queue for its analysis.
             List<String> toSplit = splitStringInThree(q);
             String u = toSplit.get(0);
             String leftMost = toSplit.get(1);
@@ -130,7 +148,7 @@ public class TDP{
          
         }
 
-
+        //Verifies if the string belongs to the grammar
         if (p.equals(uwv)){
             return true;
         }else{
@@ -138,9 +156,15 @@ public class TDP{
         }
     }
 
+    /**
+    * This method divides a string into three for its use in the top down method.
+    * @param str String given to split
+    * @return List with three elements which are the three parts of the string.
+    */
+
     public List<String> splitStringInThree(String str){
         System.out.println("String in split in three: " + str);
-        List<String> toReturn = new LinkedList<>();
+        List<String> toReturn = new LinkedList<>(); //List to be returned with the splitted string
         String u = null;
         String leftMost = null;
         String v = null;

@@ -1,4 +1,7 @@
 /**
+* This program implements an application which follows the Top-down parsing
+* algorithm. It receives a string and determines whether or not it belongs to 
+* a given grammar.
 * This is the main class and where we are setting our window for the graphic interface.
 * The class extends form the JFrame class and implements the ActionListener interface.
 * @author  Alejandro Moreno Loza - A01654319
@@ -82,7 +85,7 @@ public class Main extends JFrame implements ActionListener{
 	}
 	/**
 	* This method is an action Listener for both buttons in our UI.
-	*
+	* @param evt Event triggered by a pressed button in the UI.
 	*/
 	public void actionPerformed(ActionEvent evt){
         if(evt.getSource() == runTDP){
@@ -107,13 +110,17 @@ public class Main extends JFrame implements ActionListener{
 	public static void ChooseFile(){
 		JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
 		int returnValue = jfc.showOpenDialog(null);
-		// int returnValue = jfc.showSaveDialog(null);
 		if (returnValue == JFileChooser.APPROVE_OPTION) {
 			selectedFile = jfc.getSelectedFile();
 			System.out.println(selectedFile.getAbsolutePath());
 		}
 	}
 
+	/**
+	* This method runs the top-down parsing program with the string given by the user
+	* which was retrieved from the input text field in the UI.
+	* @param input String given by the user.
+	*/
 	public static void pushDown(String input){
 		System.out.println(input);
 		FileRead fileRead = new FileRead();
