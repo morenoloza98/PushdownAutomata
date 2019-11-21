@@ -141,7 +141,7 @@ public class Main extends JFrame implements ActionListener{
 
 				if(check)
 					outputL.setText("String belongs to the grammar");
-				else if(!check)
+				else
 					outputL.setText("String does not belong to the grammar");
 			}
 		}
