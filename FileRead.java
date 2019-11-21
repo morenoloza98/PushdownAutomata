@@ -24,9 +24,4 @@ public class FileRead{
 		return list;
 	}
 
-	public void printFile(List<String> fileDivided){
-		for (int i = 0; i < fileDivided.size(); i++) {
-			System.out.println(fileDivided.get(i));
-		}
-	}
 }

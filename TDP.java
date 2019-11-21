@@ -1,5 +1,6 @@
-    /**
-* This class is for reading a text file
+/**
+* This class defines objects that contain dictionaries
+* and emulate the process of the top-down parsing method.
 * @author  Alejandro Moreno Loza - A01654319
 * @author  Fabricio Andre Fuentes Fuentes - A01338527
 */
@@ -8,7 +9,7 @@ import java.util.*;
 import java.io.*;
 import java.lang.Character.*;
 
-public class PDA{
+public class TDP{
     Dictionary<String, List<String>> productionsDictionary = new Hashtable<>();
     int listSize; 
     boolean done;
@@ -87,16 +88,13 @@ public class PDA{
         String uwv = null;
 
         while (!goal.isEmpty() || !p.equals(uwv)) {
-            if(!goal.contains(null))
-                System.out.println("Print the queue: " + goal);
             String q = goal.poll();
-            System.out.println("q before first split: " + q);
             List<String> toSplit = splitStringInThree(q);
             String u = toSplit.get(0);
             String leftMost = toSplit.get(1);
             String v = toSplit.get(2);
 
-            for (int i = 0; i < productionsDictionary.get(leftMost).size() && !p.equals(uwv); i++) {
+            for (int i = 0; i < productionsDictionary.get(leftMost).size() && (!p.equals(uwv)) || done; i++) {
                 if (productionsDictionary.get(leftMost).isEmpty()){
                     done = true;
                 }
@@ -104,6 +102,8 @@ public class PDA{
                 {
                     System.out.println("uLEFTv: " + u + leftMost + v);
                     String w = productionsDictionary.get(leftMost).get(i);
+                    if(w.equals("lmd"))
+                        w = "";
                     uwv = u + w + v;
                     uwv.replaceAll("\\s+","");
                     System.out.println("Leftmost: " + leftMost);
@@ -121,24 +121,15 @@ public class PDA{
                             System.out.println("uwv: " + uwv);
                             goal.add(uwv);
                         } 
-                        else if(leftMost2 == null)
-                        {
-                            if(p.length() == uwv.length()){
-                                if(p.equals(uwv)){
-                                    return true;
-                                }
-                                else
-                                    return false;
-                            }
-                        }
-
                     }
                                   
                 }
                    
             }
-            
+
+         
         }
+
 
         if (p.equals(uwv)){
             return true;
