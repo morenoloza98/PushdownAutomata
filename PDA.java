@@ -86,13 +86,15 @@ public class PDA{
         String p = inputStr;
         String uwv = null;
 
-        do {
-            
+        while (!goal.isEmpty() || !p.equals(uwv)) {
+            if(!goal.contains(null))
+                System.out.println("Print the queue: " + goal);
             String q = goal.poll();
-            splitStringInThree(q);
-            String u = splitStringInThree(q).get(0);
-            String leftMost = splitStringInThree(q).get(1);
-            String v = splitStringInThree(q).get(2);
+            System.out.println("q before first split: " + q);
+            List<String> toSplit = splitStringInThree(q);
+            String u = toSplit.get(0);
+            String leftMost = toSplit.get(1);
+            String v = toSplit.get(2);
 
             for (int i = 0; i < productionsDictionary.get(leftMost).size() && !p.equals(uwv); i++) {
                 if (productionsDictionary.get(leftMost).isEmpty()){
@@ -100,34 +102,43 @@ public class PDA{
                 }
                 else 
                 {
+                    System.out.println("uLEFTv: " + u + leftMost + v);
                     String w = productionsDictionary.get(leftMost).get(i);
                     uwv = u + w + v;
                     uwv.replaceAll("\\s+","");
+                    System.out.println("Leftmost: " + leftMost);
+                    System.out.println("uwv before splitting: " + uwv);
                     List<String> splitted = splitStringInThree(uwv);
+                    System.out.println("Splitted: " + splitted);
                     String u2 = splitted.get(0);
                     String leftMost2 = splitted.get(1);
                     String v2 = splitted.get(2);
-                    // if(u2 != null){
-                        // if(p.length() >= u2.length()){
-                            if( leftMost2 != null && u2.equals(p.substring(0, u2.length()) ) ){
-                                goal.add(uwv);
-                            } else if(leftMost2 == null){
+                    System.out.println("U2: " + u2);
+                    if(u2.length()<=p.length()){
+                        System.out.println("P subs: " + (p.substring(0, u2.length())));
+                        if( leftMost2 != null && u2.equals(p.substring(0, u2.length()) ) ){
+                            System.out.println("Enter if u2: " + u2);
+                            System.out.println("uwv: " + uwv);
+                            goal.add(uwv);
+                        } 
+                        else if(leftMost2 == null)
+                        {
+                            if(p.length() == uwv.length()){
                                 if(p.equals(uwv)){
                                     return true;
                                 }
                                 else
                                     return false;
                             }
-                        // }else{
-                            // return false;
-                        // }
-                    // }
+                        }
+
+                    }
                                   
                 }
                    
             }
             
-        } while (!goal.isEmpty() || !p.equals(uwv));
+        }
 
         if (p.equals(uwv)){
             return true;
@@ -137,29 +148,27 @@ public class PDA{
     }
 
     public List<String> splitStringInThree(String str){
+        System.out.println("String in split in three: " + str);
         List<String> toReturn = new LinkedList<>();
         String u = null;
         String leftMost = null;
         String v = null;
         for (int i = 0; i < str.length() && leftMost == null; i++) {
             for (int j = 0; j < nonTerminalSymbols.size(); j++) {
-                if(str.charAt(i) == nonTerminalSymbols.get(j).charAt(0)){
+                if(leftMost == null && str.charAt(i) == nonTerminalSymbols.get(j).charAt(0)){
                     leftMost = String.valueOf(str.charAt(i));
-                    System.out.println("Left most: " + leftMost);
+                }
+                else
+                {
+                    u = str;
                 }
                 if(leftMost != null && i == 0){
-                    System.out.println("If divide");
                     u = str.substring(0, i);
                     v = str.substring(i+1,str.length());
-                    System.out.println("u: " + u);
-                    System.out.println("v: " + v);
                 }
                 else if(leftMost != null && i!=0){
-                    System.out.println("Else divide");
                     u = str.substring(0, i);
                     v = str.substring(i+1,str.length());
-                    System.out.println("u: " + u);
-                    System.out.println("v: " + v);
                 }
             }
             

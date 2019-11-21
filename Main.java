@@ -97,6 +97,7 @@ public class Main extends JFrame implements ActionListener{
 		System.out.println(input);
 		FileRead fileRead = new FileRead();
 		java.util.List<String> fileToSplit = new LinkedList<String>();
+		boolean check = false;
 
 		if(selectedFile == null)
 			outputL.setText("Please Select a file with the grammar");
@@ -104,12 +105,11 @@ public class Main extends JFrame implements ActionListener{
 			fileToSplit = fileRead.readFile(selectedFile);
 			PDA pda = new PDA();
 			pda.splitFile(fileToSplit);
-			//System.out.println(pda.topDown(input));
 
 			if(input.equals(null) || input.equals("") || input.equals(" "))
 				outputL.setText("Please insert a valid string");
 			else{
-				boolean check = pda.topDown(input);
+				check = pda.topDown(input);
 
 				if(check)
 					outputL.setText("String belongs to the grammar");
@@ -117,5 +117,6 @@ public class Main extends JFrame implements ActionListener{
 					outputL.setText("String does not belong to the grammar");
 			}
 		}
+		System.out.println(check);
 	}
 }
