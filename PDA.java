@@ -87,12 +87,11 @@ public class PDA{
         String uwv = null;
 
         do {
-            
             String q = goal.poll();
-            splitStringInThree(q);
-            String u = splitStringInThree(q).get(0);
-            String leftMost = splitStringInThree(q).get(1);
-            String v = splitStringInThree(q).get(2);
+            List<String> split = splitStringInThree(q);
+            String u = split.get(0);
+            String leftMost = split.get(1);
+            String v = split.get(2);
 
             for (int i = 0; i < productionsDictionary.get(leftMost).size() && !p.equals(uwv); i++) {
                 if (productionsDictionary.get(leftMost).isEmpty()){
@@ -107,7 +106,8 @@ public class PDA{
                     String u2 = splitted.get(0);
                     String leftMost2 = splitted.get(1);
                     //String v2 = splitted.get(2);
-                    if( leftMost2 != null && u2.equals(p.substring(0, u2.length()) ) ){
+                    
+                    if( leftMost2 != null && u2.equals(p.substring(0, u2.length())) && u2.length() <= p.length() ){
                         goal.add(uwv);
                     } else if(leftMost2 == null){
                         if(p.equals(uwv))
@@ -133,33 +133,39 @@ public class PDA{
         String u = null;
         String leftMost = null;
         String v = null;
+        int index = 0;
+        
         for (int i = 0; i < str.length() && leftMost == null; i++) {
             for (int j = 0; j < nonTerminalSymbols.size(); j++) {
-                if(str.charAt(i) == nonTerminalSymbols.get(j).charAt(0)){
+                if(str.charAt(i) == nonTerminalSymbols.get(j).charAt(0) ){
                     leftMost = String.valueOf(str.charAt(i));
-                    System.out.println("Left most: " + leftMost);
+                    index = i;
                 }
-                if(leftMost != null && i == 0){
-                    System.out.println("If divide");
-                    u = str.substring(0, i);
-                    v = str.substring(i+1,str.length());
-                    System.out.println("u: " + u);
-                    System.out.println("v: " + v);
+                else{
+                    u = str;
                 }
-                else if(leftMost != null && i!=0){
-                    System.out.println("Else divide");
-                    u = str.substring(0, i);
-                    v = str.substring(i+1,str.length());
-                    System.out.println("u: " + u);
-                    System.out.println("v: " + v);
-                }
-            }
-            
+            }   
         }
+
+        if(leftMost != null && index == 0){
+            u = str.substring(0, index);
+            v = str.substring(index+1,str.length());
+        }
+        else if(leftMost != null && index !=0){
+            u = str.substring(0, index);
+            v = str.substring(index+1,str.length());
+        }
+
         toReturn.add(u);
         toReturn.add(leftMost);
         toReturn.add(v);
 
+        System.out.println("Str: " + str);
+        System.out.println("u: " + u);
+        System.out.println("Leftmost: " + leftMost);
+        System.out.println("v: " + v);
+        System.out.println("");
+        
         return toReturn;
     }
 
