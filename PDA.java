@@ -106,23 +106,15 @@ public class PDA{
                     List<String> splitted = splitStringInThree(uwv);
                     String u2 = splitted.get(0);
                     String leftMost2 = splitted.get(1);
-                    String v2 = splitted.get(2);
-                    // if(u2 != null){
-                        // if(p.length() >= u2.length()){
-                            if( leftMost2 != null && u2.equals(p.substring(0, u2.length()) ) ){
-                                goal.add(uwv);
-                            } else if(leftMost2 == null){
-                                if(p.equals(uwv)){
-                                    return true;
-                                }
-                                else
-                                    return false;
-                            }
-                        // }else{
-                            // return false;
-                        // }
-                    // }
-                                  
+                    //String v2 = splitted.get(2);
+                    if( leftMost2 != null && u2.equals(p.substring(0, u2.length()) ) ){
+                        goal.add(uwv);
+                    } else if(leftMost2 == null){
+                        if(p.equals(uwv))
+                            return true;
+                        else
+                            return false;
+                    }     
                 }
                    
             }
