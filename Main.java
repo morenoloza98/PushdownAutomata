@@ -15,6 +15,7 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileSystemView;
+import javax.swing.Timer;
 
 public class Main extends JFrame implements ActionListener{
 	public static final long serialVersionUID = -1;
@@ -91,6 +92,15 @@ public class Main extends JFrame implements ActionListener{
         if(evt.getSource() == runTDP){
 			input = inputTF.getText();
 			pushDown(input);
+			Timer t = new Timer(3000, new ActionListener() {
+
+	            @Override
+	            public void actionPerformed(ActionEvent e) {
+	                outputL.setText("Result");
+	            }
+	        });
+	        t.setRepeats(false);
+	        t.start();
 		}
 		
 		if(evt.getSource() == chooseFile)
@@ -138,9 +148,9 @@ public class Main extends JFrame implements ActionListener{
 				check = tdp.topDown(input);
 
 				if(check)
-					outputL.setText("String belongs to the grammar");
+					outputL.setText(input + "String belongs to the grammar");
 				else
-					outputL.setText("String does not belong to the grammar");
+					outputL.setText(input + "String does not belong to the grammar");
 			}
 		}
 	}
