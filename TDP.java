@@ -107,9 +107,7 @@ public class TDP{
         List<String> toSplit = new LinkedList<>();
 
         while (!goal.isEmpty() || !p.equals(uwv)) {
-            System.out.println("Queue: " + goal);
             String q = goal.poll(); //Stores the head of the queue for its analysis.
-            System.out.println("q is: " + q);
             if(q == null)
                 break;
             else
@@ -124,25 +122,17 @@ public class TDP{
                 }
                 else 
                 {
-                    System.out.println("uLEFTv: " + u + leftMost + v);
                     String w = productionsDictionary.get(leftMost).get(i);
                     if(w.equals("lmd"))
                         w = "";
                     uwv = u + w + v;
                     uwv.replaceAll("\\s+","");
-                    System.out.println("Leftmost: " + leftMost);
-                    System.out.println("uwv before splitting: " + uwv);
                     List<String> splitted = splitStringInThree(uwv);
-                    System.out.println("Splitted: " + splitted);
                     String u2 = splitted.get(0);
                     String leftMost2 = splitted.get(1);
                     String v2 = splitted.get(2);
-                    System.out.println("U2: " + u2);
                     if(u2.length()<=p.length()){
-                        System.out.println("P subs: " + (p.substring(0, u2.length())));
                         if( leftMost2 != null && u2.equals(p.substring(0, u2.length()) ) ){
-                            System.out.println("Enter if u2: " + u2);
-                            System.out.println("uwv: " + uwv);
                             goal.add(uwv);
                         } 
                     }
@@ -169,7 +159,6 @@ public class TDP{
     */
 
     public List<String> splitStringInThree(String str){
-        System.out.println("String in split in three: " + str);
         List<String> toReturn = new LinkedList<>(); //List to be returned with the splitted string
         String u = null;
         String leftMost = null;

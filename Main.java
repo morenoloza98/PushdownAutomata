@@ -112,7 +112,6 @@ public class Main extends JFrame implements ActionListener{
 		int returnValue = jfc.showOpenDialog(null);
 		if (returnValue == JFileChooser.APPROVE_OPTION) {
 			selectedFile = jfc.getSelectedFile();
-			System.out.println(selectedFile.getAbsolutePath());
 		}
 	}
 
@@ -122,7 +121,6 @@ public class Main extends JFrame implements ActionListener{
 	* @param input String given by the user.
 	*/
 	public static void pushDown(String input){
-		System.out.println(input);
 		FileRead fileRead = new FileRead();
 		java.util.List<String> fileToSplit = new LinkedList<String>();
 		boolean check = false;
@@ -145,6 +143,5 @@ public class Main extends JFrame implements ActionListener{
 					outputL.setText("String does not belong to the grammar");
 			}
 		}
-		System.out.println(check);
 	}
 }
