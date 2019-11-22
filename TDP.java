@@ -104,15 +104,21 @@ public class TDP{
         String p = inputStr;
         String uwv = null;
         boolean done = false;
+        List<String> toSplit = new LinkedList<>();
 
         while (!goal.isEmpty() || !p.equals(uwv)) {
+            System.out.println("Queue: " + goal);
             String q = goal.poll(); //Stores the head of the queue for its analysis.
-            List<String> toSplit = splitStringInThree(q);
+            System.out.println("q is: " + q);
+            if(q == null)
+                break;
+            else
+                toSplit = splitStringInThree(q);
             String u = toSplit.get(0);
             String leftMost = toSplit.get(1);
             String v = toSplit.get(2);
 
-            for (int i = 0; i < productionsDictionary.get(leftMost).size() && (!p.equals(uwv)) || done; i++) {
+            for (int i = 0; i < productionsDictionary.get(leftMost).size() && (!p.equals(uwv)); i++) {
                 if (productionsDictionary.get(leftMost).isEmpty()){
                     done = true;
                 }
