@@ -148,9 +148,9 @@ public class Main extends JFrame implements ActionListener{
 				check = tdp.topDown(input);
 
 				if(check)
-					outputL.setText(input + "String belongs to the grammar");
+					outputL.setText("String " + input + " belongs to the grammar");
 				else
-					outputL.setText(input + "String does not belong to the grammar");
+					outputL.setText("String " + input + " does not belong to the grammar");
 			}
 		}
 	}
